@@ -38,7 +38,6 @@ def main():
             continue
         except KeyError:
             continue
-    return
 
 
 if __name__ == '__main__':
