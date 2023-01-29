@@ -10,8 +10,6 @@ def main():
     tg_chat_id = os.environ['TG_CHAT_ID']
     dvmn_token = os.environ['DVMN_TOKEN']
     bot = telegram.Bot(token=tg_bot_token)
-    updates = bot.get_updates()
-    users_name = updates[0].message['chat']['first_name']
     long_poling_url = 'https://dvmn.org/api/long_polling/'
     headers = {'Authorization': f'Token {dvmn_token}', }
     payload = {}
