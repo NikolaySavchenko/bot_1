@@ -4,14 +4,6 @@ import telegram
 from dotenv import load_dotenv
 
 
-def reviewed_notification(dvmn_token, payload):
-    long_poling_url = 'https://dvmn.org/api/long_polling/'
-    headers = {'Authorization': f'Token {dvmn_token}', }
-    response = requests.get(long_poling_url, headers=headers, params=payload, timeout=5)
-    response.raise_for_status()
-    return response.json()
-
-
 def main():
     load_dotenv()
     bot_token = os.environ['BOT_TOKEN']
@@ -20,12 +12,15 @@ def main():
     bot = telegram.Bot(token=bot_token)
     updates = bot.get_updates()
     users_name = updates[0].message['chat']['first_name']
+    long_poling_url = 'https://dvmn.org/api/long_polling/'
+    headers = {'Authorization': f'Token {dvmn_token}', }
     payload = {}
     while True:
         try:
-            response = reviewed_notification(dvmn_token, payload)
-            if response['new_attempts']:
-                for attempt in response['new_attempts']:
+            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
+            response.raise_for_status()
+            if response.json()['new_attempts']:
+                for attempt in response.json()['new_attempts']:
                     bot.send_message(text=f"Преподаватель проверил работу: {attempt['lesson_title']}",
                                      chat_id=chat_id)
                     bot.send_message(text=f"Ссылка: {attempt['lesson_url']}",
