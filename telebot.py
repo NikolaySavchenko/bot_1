@@ -1,4 +1,5 @@
 import os
+from time import sleep
 import requests
 import telegram
 from dotenv import load_dotenv
@@ -33,6 +34,7 @@ def main():
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
+            sleep(30)
             continue
         except KeyError:
             continue
