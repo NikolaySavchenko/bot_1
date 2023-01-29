@@ -15,7 +15,7 @@ def main():
     payload = {}
     while True:
         try:
-            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
+            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=600)
             response.raise_for_status()
             if response.json()['new_attempts']:
                 for attempt in response.json()['new_attempts']:
@@ -33,6 +33,8 @@ def main():
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
+            continue
+        except KeyError:
             continue
     return
 
