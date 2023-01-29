@@ -18,8 +18,8 @@ In file `.env` only two line:
 
 ```
 DVMN_TOKEN='here is your own TOKEN'
-BOT_TOKEN='here is your own TOKEN'
-CHAT_ID='here is your chat_id'
+TG_BOT_TOKEN='here is your own TOKEN'
+TG_CHAT_ID='here is your chat_id'
 ```
 
 Example for command line:
