@@ -15,7 +15,7 @@ def main():
     payload = {}
     while True:
         try:
-            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=600)
+            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=5)
             response.raise_for_status()
             if response.json()['new_attempts']:
                 for attempt in response.json()['new_attempts']:
@@ -29,7 +29,7 @@ def main():
                     else:
                         bot.send_message(text='Преподавателю все понравилось, можно приступать к следующему уроку',
                                          chat_id=tg_chat_id)
-                    payload = {'timestamp': attempt['timestamp']}
+                payload = {'timestamp': response.json()['last_attempt_timestamp']}
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
