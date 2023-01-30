@@ -16,12 +16,10 @@ def main():
     payload = {}
     while True:
         try:
-            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
+            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=100)
             response.raise_for_status()
             response_json = response.json()
-            print(response.status_code)
-            print(response_json)
-            if response_json['new_attempts']:
+            if response_json['status'] == 'found':
                 for attempt in response_json['new_attempts']:
                     bot.send_message(text=f"Преподаватель проверил работу: {attempt['lesson_title']}",
                                      chat_id=tg_chat_id)
@@ -34,12 +32,12 @@ def main():
                         bot.send_message(text='Преподавателю все понравилось, можно приступать к следующему уроку',
                                          chat_id=tg_chat_id)
                 payload = {'timestamp': response_json['last_attempt_timestamp']}
+            else:
+                payload = {'timestamp': response_json['timestamp_to_request']}
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
             sleep(30)
-            continue
-        except KeyError:
             continue
 
 
