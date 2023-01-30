@@ -18,9 +18,9 @@ def main():
         try:
             response = requests.get(long_poling_url, headers=headers, params=payload, timeout=100)
             response.raise_for_status()
-            response_json = response.json()
-            if response_json['status'] == 'found':
-                for attempt in response_json['new_attempts']:
+            response_review = response.json()
+            if response_review['status'] == 'found':
+                for attempt in response_review['new_attempts']:
                     bot.send_message(text=f"Преподаватель проверил работу: {attempt['lesson_title']}",
                                      chat_id=tg_chat_id)
                     bot.send_message(text=f"Ссылка: {attempt['lesson_url']}",
@@ -31,9 +31,9 @@ def main():
                     else:
                         bot.send_message(text='Преподавателю все понравилось, можно приступать к следующему уроку',
                                          chat_id=tg_chat_id)
-                payload = {'timestamp': response_json['last_attempt_timestamp']}
+                payload = {'timestamp': response_review['last_attempt_timestamp']}
             else:
-                payload = {'timestamp': response_json['timestamp_to_request']}
+                payload = {'timestamp': response_review['timestamp_to_request']}
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
