@@ -16,7 +16,7 @@ def main():
     payload = {}
     while True:
         try:
-            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=100)
+            response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
             response.raise_for_status()
             review = response.json()
             if review['status'] == 'found':
