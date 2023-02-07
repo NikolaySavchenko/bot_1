@@ -5,6 +5,13 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
+logging.basicConfig(level=logging.DEBUG)
+logging.debug('Сообщение для дебагинга')
+logging.info('Произошло какое-то событие. Всё идёт по плану.')
+logging.warning('Предупреждение, что-то могло сломаться')
+logging.error('Ошибка, что-то сломалось')
+logging.critical('МЫ В ОГНЕ! ЧТО ДЕЛАТЬ?!?!')
+
 
 def main():
     load_dotenv()
@@ -44,9 +51,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    logging.basicConfig(level=logging.DEBUG)
-    logging.debug('Сообщение для дебагинга')
-    logging.info('Произошло какое-то событие. Всё идёт по плану.')
-    logging.warning('Предупреждение, что-то могло сломаться')
-    logging.error('Ошибка, что-то сломалось')
-    logging.critical('МЫ В ОГНЕ! ЧТО ДЕЛАТЬ?!?!')
