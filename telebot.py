@@ -1,3 +1,4 @@
+import logging
 import os
 from time import sleep
 import requests
@@ -43,3 +44,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+    logging.debug('Сообщение для дебагинга')
+    logging.info('Произошло какое-то событие. Всё идёт по плану.')
+    logging.warning('Предупреждение, что-то могло сломаться')
+    logging.error('Ошибка, что-то сломалось')
+    logging.critical('МЫ В ОГНЕ ЧТО ДЕЛАТЬ?!?!')
