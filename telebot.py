@@ -51,12 +51,17 @@ def main():
                 payload = {'timestamp': review['last_attempt_timestamp']}
             else:
                 payload = {'timestamp': review['timestamp_to_request']}
-        except requests.exceptions.ReadTimeout:
+        except requests.exceptions.ReadTimeout as err1:
+            logger.error(err1)
             continue
-        except requests.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError as err2:
+            logger.error(err2)
             sleep(30)
             continue
-        logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
+        except Exception as err3:
+            logger.error(err3)
+            sleep(30)
+            continue
 
 
 if __name__ == '__main__':
