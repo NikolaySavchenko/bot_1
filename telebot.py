@@ -5,12 +5,17 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
-logging.basicConfig(level=logging.DEBUG)
-logging.debug('Сообщение для дебагинга')
-logging.info('Произошло какое-то событие. Всё идёт по плану.')
-logging.warning('Предупреждение, что-то могло сломаться')
-logging.error('Ошибка, что-то сломалось')
-logging.critical('МЫ В ОГНЕ! ЧТО ДЕЛАТЬ?!?!')
+
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def main():
@@ -23,6 +28,10 @@ def main():
     headers = {'Authorization': f'Token {dvmn_token}', }
     payload = {}
     while True:
+        logging.basicConfig(format="%(process)d %(levelname)s %(message)s %(lineno)d")
+        logger = logging.getLogger('database')
+        logger.setLevel(logging.WARNING)
+        logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
         try:
             response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
             response.raise_for_status()
@@ -47,6 +56,7 @@ def main():
         except requests.exceptions.ConnectionError:
             sleep(30)
             continue
+        logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
 
 
 if __name__ == '__main__':
