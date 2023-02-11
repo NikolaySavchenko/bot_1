@@ -5,6 +5,8 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
+logger = logging.getLogger('database')
+
 
 class TelegramLogsHandler(logging.Handler):
 
@@ -27,10 +29,9 @@ def main():
     long_poling_url = 'https://dvmn.org/api/long_polling/'
     headers = {'Authorization': f'Token {dvmn_token}', }
     payload = {}
+    logging.basicConfig(format="%(process)d %(levelname)s %(message)s %(lineno)d")
+    logger.setLevel(logging.WARNING)
     while True:
-        logging.basicConfig(format="%(process)d %(levelname)s %(message)s %(lineno)d")
-        logger = logging.getLogger('database')
-        logger.setLevel(logging.WARNING)
         logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
         try:
             response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
@@ -51,15 +52,15 @@ def main():
                 payload = {'timestamp': review['last_attempt_timestamp']}
             else:
                 payload = {'timestamp': review['timestamp_to_request']}
-        except requests.exceptions.ReadTimeout as err1:
-            logger.error(err1)
+        except requests.exceptions.ReadTimeout as err:
+            logger.error(err)
             continue
-        except requests.exceptions.ConnectionError as err2:
-            logger.error(err2)
+        except requests.exceptions.ConnectionError as err:
+            logger.error(err)
             sleep(30)
             continue
-        except Exception as err3:
-            logger.error(err3)
+        except Exception as err:
+            logger.error(err)
             sleep(30)
             continue
 
