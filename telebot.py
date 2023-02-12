@@ -31,8 +31,8 @@ def main():
     payload = {}
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s %(lineno)d")
     logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
     while True:
-        logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
         try:
             response = requests.get(long_poling_url, headers=headers, params=payload, timeout=60)
             response.raise_for_status()
