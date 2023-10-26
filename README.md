@@ -17,12 +17,23 @@ You should use environment variables. Create file name `.env` with next variable
 In file `.env` only two line:
 
 ```
-DVMN_TOKEN='here is your own TOKEN'
-TG_BOT_TOKEN='here is your own TOKEN'
-TG_CHAT_ID='here is your chat_id'
+DVMN_TOKEN='here_is_your_own_TOKEN'
+TG_BOT_TOKEN='here_is_your_own_TOKEN'
+TG_CHAT_ID='here_is_your_own_chat_id'
 ```
 
 Example for command line:
 ```
 $ \bot_1> py telebot.py
 ```
+
+### If you want to use Docker image:
+
+The following assumes that you have installed Docker.
+Example for command line:
+```
+$ docker pull  docker.io/homozx/bot1_docker # download the image
+
+$ docker run --rm -e DVMN_TOKEN=here_is_your_own_TOKEN -e TG_BOT_TOKEN=here_is_your_own_TOKEN -e TG_CHAT_ID=here_is_your_own_chat_id -d bot1_docker
+```
+The Bot is working!
