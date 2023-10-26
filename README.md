@@ -32,8 +32,8 @@ $ \bot_1> py telebot.py
 The following assumes that you have installed Docker.
 Example for command line:
 ```
-$ docker pull  docker.io/homozx/bot1_docker # download the image
+$ docker pull homozx/bot1_docker # download the image
 
-$ docker run --rm -e DVMN_TOKEN=here_is_your_own_TOKEN -e TG_BOT_TOKEN=here_is_your_own_TOKEN -e TG_CHAT_ID=here_is_your_own_chat_id -d bot1_docker
+$ docker run --rm -e DVMN_TOKEN=here_is_your_own_TOKEN -e TG_BOT_TOKEN=here_is_your_own_TOKEN -e TG_CHAT_ID=here_is_your_own_chat_id -d homozx/bot1_docker
 ```
 The Bot is working!
